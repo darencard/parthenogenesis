@@ -1,3 +1,10 @@
+# various functions for calculating heterozygosity within a sample from SNP data
+# mostly taken as-is from R package Rhh, which isn't currently maintained on CRAN
+# original package is available in archive on GitHub (https://github.com/cran/Rhh)
+# some details are provided below on each, but see Rhh documentation for details on input formats, etc.
+
+# internal relatedness (direct from Rhh)
+# Amos et al. 2001. The influence of parental relatedness on reproductive success. Proceedings B. doi: 10.1098/rspb.2001.1751
 `ir` <-
   function(genotypes) {
     
@@ -49,7 +56,8 @@
     
   }
 
-
+# standardized individual heterozygosity (direct from Rhh)
+# Coltman et al. 1999 Parasite-mediated selection against inbred say sheep in a free-living island population. Evolution 53(4): 1259-1267.
 `sh` <-
   function(genotypes) {
     
@@ -106,7 +114,8 @@
     
   }
 
-
+# homozygosity by loci (direct from Rhh)
+# Aparicia et al. 2006. What should we weight to estimate heterozygosity, alleles or loci? Molecular Ecology. doi: 10.1111/j.1365-294X.2006.03111.x.
 `hl` <-
   function(genotypes) {
     
@@ -154,7 +163,7 @@
     
   }
 
-
+# function to check data and make sure it is in correct format (direct from Rhh)
 `chkdata` <-
   function(genotypes) {
     
@@ -214,7 +223,8 @@
     }
   }
     
-
+# wrapper function to check data and estimate desired statistic
+# modified to prevent reading and writing of data from drive
 `mlh` <-
   function(data) {
     
@@ -242,6 +252,8 @@
     
   }
 
+# new function to bootstrap-resample a given dataset, calculating the desired statistic with each bootstrap rep
+# outputs dataframe with a column for each sample from the input dataframe, with each row representing a bootstrap rep
 boot_het <- function(data, method, reps) {
   out <- data.frame()
   nloci <- (ncol(data)-1)/2
