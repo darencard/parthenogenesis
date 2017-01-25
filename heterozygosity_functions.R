@@ -1,7 +1,17 @@
 # various functions for calculating heterozygosity within a sample from SNP data
 # mostly taken as-is from R package Rhh, which isn't currently maintained on CRAN
 # original package is available in archive on GitHub (https://github.com/cran/Rhh)
-# some details are provided below on each, but see Rhh documentation for details on input formats, etc.
+# some details are provided below, but see Rhh documentation for more details
+
+# input format
+# tabular data with a sample name as the first column and then two columns each for each locus, encoding the two allele states
+# a header can be included and read in, but won't be parsed by functions below
+# tab-delimited example for 2 samples and 5 loci:
+# sample1 A C G T G C A C C T
+# sample2 A C T T G C A C C C
+# 
+# can then read data in with read.table
+# data <- read.table("data.txt", header=FALSE, sep="\t")
 
 # internal relatedness (direct from Rhh)
 # Amos et al. 2001. The influence of parental relatedness on reproductive success. Proceedings B. doi: 10.1098/rspb.2001.1751
@@ -264,7 +274,7 @@
     }
   }
     
-# wrapper function to check data and estimate desired statistic
+# wrapper function to check data and estimate desired statistic (modified from Rhh)
 # modified to prevent reading and writing of data from drive
 `mlh` <-
   function(data) {
