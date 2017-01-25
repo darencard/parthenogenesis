@@ -163,6 +163,47 @@
     
   }
 
+# new function to estimate the observed heterozygosity in each sample
+# obs. het. = proportion of sites that are heterozygous
+# essentially a modified version of the 'hl' function from Rhh
+`oh` <-
+  function(genotypes) {
+    
+    genotypes <- as.matrix(genotypes)
+    
+    individuals <- nrow(genotypes)
+    loci <- ncol(genotypes) / 2
+    oh <- array(NA, dim=c(individuals, 1))
+    
+    for (i in 1:individuals) {
+      
+      sum.Eh <- 0
+      sum.Ej <- 0
+      
+      for (l in 1:loci) {
+        
+        g <- 2 * l - 1
+        h <- 2 * l
+        
+        if ((!is.na(genotypes[i, g])) && (!is.na(genotypes[i, h]))) {
+          if (genotypes[i, g] == genotypes[i, h]) {
+            sum.Eh <- sum.Eh + 1
+          }
+          else {
+            sum.Ej <- sum.Ej + 1
+          }
+        }
+      }
+      
+      oh[i] <- 1 - (sum.Eh / (sum.Eh + sum.Ej))
+      
+    }
+    
+    oh
+  
+  }
+    
+    
 # function to check data and make sure it is in correct format (direct from Rhh)
 `chkdata` <-
   function(genotypes) {
@@ -265,13 +306,15 @@ boot_het <- function(data, method, reps) {
       j[2*i-1] <- random[i]
       j[2*i] <- random[i]+1
     }
-    if (method == "sh" || method == "ir" || method == "hl") {
+    if (method == "sh" || method == "ir" || method == "hl" || method == "oh") {
       if (method == "sh") {
         out <- rbind(out, c(rep, t(sh(data[,-1][,j]))))
       } else if (method == "ir") {
         out <- rbind(out, c(rep, t(ir(data[,-1][,j]))))
-      } else {
+      } else if (method == "hl") {
         out <- rbind(out, c(rep, t(hl(data[,-1][,j]))))
+      } else {
+        out <- rbind(out, c(rep, t(oh(data[,-1][,j]))))
       }
     }
   }
