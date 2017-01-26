@@ -5,13 +5,14 @@
 
 # input format
 # tabular data with a sample name as the first column and then two columns each for each locus, encoding the two allele states
-# a header can be included and read in, but won't be parsed by functions below
+# a header with locus IDs should be included
 # tab-delimited example for 2 samples and 5 loci:
-# sample1 A C G T G C A C C T
-# sample2 A C T T G C A C C C
+# sampleID	population	loc1a	loc1b	loc2a	loc2b	loc3a	loc3b	loc4a	loc4b	loc5a	loc5b
+# sample1	pop1	A	C	G	T	G	C	A	C	C	T
+# sample2	pop2	A	C	T	T	G	C	A	C	C	C
 # 
 # can then read data in with read.table
-# data <- read.table("data.txt", header=FALSE, sep="\t")
+# data <- read.table("data.txt", header=TRUE, sep="\t")
 
 # internal relatedness (direct from Rhh)
 # Amos et al. 2001. The influence of parental relatedness on reproductive success. Proceedings B. doi: 10.1098/rspb.2001.1751
@@ -318,13 +319,13 @@ boot_het <- function(data, method, reps) {
     }
     if (method == "sh" || method == "ir" || method == "hl" || method == "oh") {
       if (method == "sh") {
-        out <- rbind(out, c(rep, t(sh(data[,-1][,j]))))
+        out <- rbind(out, c(rep, t(sh(data[,c(-1,-2)][,j]))))
       } else if (method == "ir") {
-        out <- rbind(out, c(rep, t(ir(data[,-1][,j]))))
+        out <- rbind(out, c(rep, t(ir(data[,c(-1,-2)][,j]))))
       } else if (method == "hl") {
-        out <- rbind(out, c(rep, t(hl(data[,-1][,j]))))
+        out <- rbind(out, c(rep, t(hl(data[,c(-1,-2)][,j]))))
       } else {
-        out <- rbind(out, c(rep, t(oh(data[,-1][,j]))))
+        out <- rbind(out, c(rep, t(oh(data[,c(-1,-2)][,j]))))
       }
     }
   }
