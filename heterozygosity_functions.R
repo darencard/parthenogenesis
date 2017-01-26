@@ -14,6 +14,9 @@
 # can then read data in with read.table
 # data <- read.table("data.txt", header=TRUE, sep="\t")
 
+# requires Demerelate
+library(Demerelate)
+
 # internal relatedness (direct from Rhh)
 # Amos et al. 2001. The influence of parental relatedness on reproductive success. Proceedings B. doi: 10.1098/rspb.2001.1751
 `ir` <-
@@ -304,7 +307,7 @@
     
   }
 
-# new function to bootstrap-resample a given dataset, calculating the desired statistic with each bootstrap rep
+# new function to bootstrap-resample a given dataset, calculating the desired heterozygosity statistic with each bootstrap rep
 # outputs dataframe with a column for each sample from the input dataframe, with each row representing a bootstrap rep
 boot_het <- function(data, method, reps) {
   out <- data.frame()
@@ -330,5 +333,30 @@ boot_het <- function(data, method, reps) {
     }
   }
   names(out) <- c("rep", as.character(data[,1]))
+  return(out)
+}
+
+# new function to bootstrap-resample a given dataset, calculating the desired relatedness statistic with each bootstrap rep
+# outputs dataframe with a column for each sample from the input dataframe, with each row representing a bootstrap rep
+# first boostrap rep is always based on the full raw dataset (i.e., isn't a resampling)
+boot_related <- function(data, method, reps) {
+  print("Bootstrap replicate #1")
+  initial <- Emp.calc(data, method)
+  colnames(initial) <- NULL
+  out <- cbind(data.frame(rep=1), t(initial))
+  nloci <- (ncol(data))/2
+  for (rep in 2:reps) {
+    print(paste0("Bootstrap replicate #", rep))
+    j <- numeric(2 * nloci)
+    random <- sample(seq(1, nloci, 2), nloci, replace=TRUE)
+    for (i in 1:length(random)) {
+      j[2*i-1] <- random[i]
+      j[2*i] <- random[i]+1
+    }
+    initial <- Emp.calc(cbind(data[,c(1,2)], data[,c(-1,-2)][,j]), method)
+    colnames(initial) <- NULL
+    row <- c(rep, t(initial))
+    out <- rbind(out, row)
+    }
   return(out)
 }
