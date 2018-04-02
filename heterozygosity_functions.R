@@ -338,7 +338,7 @@ boot_het <- function(data, method, reps) {
 
 # new function to bootstrap-resample a given dataset, calculating the desired relatedness statistic with each bootstrap rep
 # outputs dataframe with a column for each sample from the input dataframe, with each row representing a bootstrap rep
-# first boostrap rep is always based on the full raw dataset (i.e., isn't a resampling)
+## first boostrap rep is always based on the full raw dataset (i.e., isn't a resampling)
 boot_related <- function(data, method, reps) {
   print("Bootstrap replicate #1")
   initial <- Emp.calc(data, method)
