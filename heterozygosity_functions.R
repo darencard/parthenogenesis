@@ -310,7 +310,7 @@ library(Demerelate)
 # new function to bootstrap-resample a given dataset, calculating the desired heterozygosity statistic with each bootstrap rep
 # outputs dataframe with a column for each sample from the input dataframe, with each row representing a bootstrap rep
 boot_het <- function(data, method, reps) {
-  out <- data.frame()
+  out <- data.frame(stringsAsFactors=FALSE)
   nloci <- (ncol(data)-1)/2
   for (rep in 1:reps) {
     print(paste0("Bootstrap replicate #", rep))
