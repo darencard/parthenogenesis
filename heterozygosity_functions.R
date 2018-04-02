@@ -322,17 +322,17 @@ boot_het <- function(data, method, reps) {
     }
     if (method == "sh" || method == "ir" || method == "hl" || method == "oh") {
       if (method == "sh") {
-        out <- rbind(out, c(method, rep, t(sh(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(sh(data[,c(-1,-2)][,j]))))
       } else if (method == "ir") {
-        out <- rbind(out, c(method, rep, t(ir(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(ir(data[,c(-1,-2)][,j]))))
       } else if (method == "hl") {
-        out <- rbind(out, c(method, rep, t(hl(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(hl(data[,c(-1,-2)][,j]))))
       } else {
-        out <- rbind(out, c(method, rep, t(oh(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(oh(data[,c(-1,-2)][,j]))))
       }
     }
   }
-  names(out) <- c("rep", as.character(data[,1]))
+  names(out) <- c("method", "rep", as.character(data[,1]))
   return(out)
 }
 
@@ -343,7 +343,7 @@ boot_related <- function(data, method, reps) {
   print("Bootstrap replicate #1")
   initial <- Emp.calc(data, method)
   colnames(initial) <- NULL
-  out <- cbind(data.frame(rep=1), t(initial))
+  out <- cbind(data.frame(method=method, rep=1), t(initial))
   nloci <- (ncol(data))/2
   for (rep in 2:reps) {
     print(paste0("Bootstrap replicate #", rep))
@@ -355,7 +355,7 @@ boot_related <- function(data, method, reps) {
     }
     initial <- Emp.calc(cbind(data[,c(1,2)], data[,c(-1,-2)][,j]), method)
     colnames(initial) <- NULL
-    row <- c(method, rep, t(initial))
+    row <- data.frame(method, rep, t(initial))
     out <- rbind(out, row)
     }
   return(out)
