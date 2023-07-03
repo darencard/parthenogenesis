@@ -21,6 +21,8 @@ library(Demerelate)
 # Amos et al. 2001. The influence of parental relatedness on reproductive success. Proceedings B. doi: 10.1098/rspb.2001.1751
 `ir` <-
   function(genotypes) {
+
+    genotypes <- as.data.frame(genotypes)
     
     genotypes <- as.matrix(genotypes)
     
@@ -74,6 +76,8 @@ library(Demerelate)
 # Coltman et al. 1999 Parasite-mediated selection against inbred say sheep in a free-living island population. Evolution 53(4): 1259-1267.
 `sh` <-
   function(genotypes) {
+
+    genotypes <- as.data.frame(genotypes)
     
     genotypes <- as.matrix(genotypes)
     
@@ -132,6 +136,8 @@ library(Demerelate)
 # Aparicia et al. 2006. What should we weight to estimate heterozygosity, alleles or loci? Molecular Ecology. doi: 10.1111/j.1365-294X.2006.03111.x.
 `hl` <-
   function(genotypes) {
+
+    genotypes <- as.data.frame(genotypes)
     
     genotypes <- as.matrix(genotypes)
     
@@ -182,6 +188,8 @@ library(Demerelate)
 # essentially a modified version of the 'hl' function from Rhh
 `oh` <-
   function(genotypes) {
+
+    genotypes <- as.data.frame(genotypes)
     
     genotypes <- as.matrix(genotypes)
     
@@ -221,6 +229,8 @@ library(Demerelate)
 # function to check data and make sure it is in correct format (direct from Rhh)
 `chkdata` <-
   function(genotypes) {
+
+    genotypes <- as.data.frame(genotypes)
     
     genotypes <- as.matrix(genotypes)
     
