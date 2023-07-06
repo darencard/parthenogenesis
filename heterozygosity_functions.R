@@ -363,7 +363,7 @@ boot_related <- function(data, method, reps) {
       j[2*i-1] <- random[i]
       j[2*i] <- random[i]+1
     }
-    initial <- Emp.calc(cbind(data[,c(1,2)], data[,c(-1,-2)][,j]), method)
+    initial <- Emp.calc(as.data.frame(cbind(data[,c(1,2)], data[,c(-1,-2)][,j])), method)
     colnames(initial) <- NULL
     row <- data.frame(method, rep, t(initial))
     out <- rbind(out, row)
