@@ -332,13 +332,13 @@ boot_het <- function(data, method, reps) {
     }
     if (method == "sh" || method == "ir" || method == "hl" || method == "oh") {
       if (method == "sh") {
-        out <- rbind(out, data.frame(method, rep, t(sh(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(sh(as.data.frame(data[,c(-1,-2)][,j])))))
       } else if (method == "ir") {
-        out <- rbind(out, data.frame(method, rep, t(ir(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(ir(as.data.frame(data[,c(-1,-2)][,j])))))
       } else if (method == "hl") {
-        out <- rbind(out, data.frame(method, rep, t(hl(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(hl(as.data.frame(data[,c(-1,-2)][,j])))))
       } else {
-        out <- rbind(out, data.frame(method, rep, t(oh(data[,c(-1,-2)][,j]))))
+        out <- rbind(out, data.frame(method, rep, t(oh(as.data.frame(data[,c(-1,-2)][,j])))))
       }
     }
   }
@@ -351,7 +351,7 @@ boot_het <- function(data, method, reps) {
 ## first boostrap rep is always based on the full raw dataset (i.e., isn't a resampling)
 boot_related <- function(data, method, reps) {
   print("Bootstrap replicate #1")
-  initial <- Emp.calc(data, method)
+  initial <- Emp.calc(as.data.frame(data), method)
   colnames(initial) <- NULL
   out <- cbind(data.frame(method=method, rep=1), t(initial))
   nloci <- (ncol(data))/2
